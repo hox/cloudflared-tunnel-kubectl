@@ -1,0 +1,26 @@
+name: Cloudflared Tunnel for Kubectl
+description: An action to foward a Cloudflared Tunnel TCP connection for use with kubernetes.
+
+inputs:
+  cloudflared_service_token_id:
+    description: Service token ID
+    required: true
+  cloudflared_service_token_secret:
+    description: Service token secret
+    required: true
+  cloudflared_host_address: 
+    description: Remote tunnel address
+    required: true
+  kubeconfig:
+    description: Kubernetes kubeconfig
+    required: true
+  kubectl_args:
+    description: Kubectl args 
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Run Script
+      run: chmod +x ${GITHUB_ACTION_PATH}/script.sh && ${GITHUB_ACTION_PATH}/script.sh
+      shell: bash
