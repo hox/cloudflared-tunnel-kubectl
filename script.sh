@@ -8,13 +8,13 @@ echo ::endgroup::
 
 echo ::group::Downloading latest kubectl
 curl -sLO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 mkdir -p ~/.kube
 echo $kubeconfig | base64 -d > ~/.kube/config
 echo ::endgroup::
 
 echo ::group::Start Cloudflared Tunnel
-echo "127.0.0.1 kubernetes" | tee -a /etc/hosts
+echo "127.0.0.1 kubernetes" | sudo tee -a /etc/hosts
 ./cloudflared access tcp --id $cloudflared_service_token_id --secret $cloudflared_service_token_secret -T $cloudflared_host_address -L kubernetes:6443 --log-level debug --logfile log >/dev/null 2>&1 < /dev/null &
 curl --retry 5 --retry-connrefused https://kubernetes:6443 >/dev/null 2>&1 < /dev/null &
 tail -f log/cloudflared.log | while read LOGLINE
