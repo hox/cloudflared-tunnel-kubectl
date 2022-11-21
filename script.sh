@@ -24,5 +24,5 @@ done
 echo ::endgroup::
 
 echo ::group::Run kubectl
-KUBECONFIG=~/kube/config kubectl $kubectl_args
+KUBECONFIG=~/.kube/config kubectl $kubectl_args
 echo ::endgroup::
